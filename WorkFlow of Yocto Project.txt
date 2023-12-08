@@ -1,0 +1,29 @@
+WorkFlow of Yocto Project:
+
+1. git clone git://git.yoctoproject.org/poky
+2. Checkout to the latest branch [ I did to Honister branch].
+3. source oe-init-build-env ../build  [ so that pwd moves from Poky to build directory].
+4. Execute the following Commands:
+sudo apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev python3-subunit mesa-common-dev zstd liblz4-tool file locales libacl1
+sudo locale-gen en_US.UTF-8
+sudo apt install make python3-pip inkscape texlive-latex-extra
+sudo pip3 install sphinx sphinx_rtd_theme pyyaml
+5. bitbake core-image-minimal [ It starts generating image]. 
+6. QEMU - Quick Emulator:
+runqemu qemux86-64 core-image-minimal [ Emulator will appear ].
+7. To change into ARM and run in QEMU:
+Edit ./build/conf/local.conf file
+Set
+MACHINE = "qemuarm"
+$ source poky/oe-init-build-env
+$ bitbake core-image-minimal
+$ runqemu core-image-minimal
+Emulator will appear.
+8. To run QEMU in console without Emulator:
+runqemu core-image-minimal nographic 
+9. To add particular package in your root file system:
+Open your local.conf file and add the recipe name as below:
+IMAGE_INSTALL_append = "  usbutils"
+confirm the addtion of package by : bitbake -e core-image-minimal | grep ^IMAGE_INSTALL=
+10. bitbake core-image-sato:
+runqemu qemuarm core-image-sato
